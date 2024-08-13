@@ -29,7 +29,7 @@ from . import CONFIG_DIR
 
 
 # pylint: disable=too-few-public-methods
-class PrivateBaseConfig(BaseConfiguration):
+class BaseConfig(BaseConfiguration):
     """BaseConfig class presents operations on the base configuration
     of the platform layer to callers.
 
@@ -38,4 +38,4 @@ class PrivateBaseConfig(BaseConfiguration):
         """Constructor
 
         """
-        super().__init__("mock platform", CONFIG_DIR)
+        BaseConfiguration.__init__(self, "mock platform", CONFIG_DIR)

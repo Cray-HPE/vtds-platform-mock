@@ -20,60 +20,58 @@
 # OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
-"""Public API module for the mock platform layer, this gives callers
-access to the Platform API and prevents them from seeing the private
-implementation of the API.
+"""Private layer implementation module for the mock platform.
 
 """
 
-from vtds_base import ContextualError
-from .private.private_platform import PrivatePlatform
+from vtds_base import (
+    ContextualError,
+)
+from vtds_base.layers.platform import PlatformAPI
 
 
-class LayerAPI:
-    """ Presents the Platform API to callers.
+class Platform(PlatformAPI):
+    """Platform class, implements the mock platform layer
+    accessed through the python Platform API.
 
     """
     def __init__(self, stack, config, build_dir):
-        """Constructor. Constructs the public API to be used for
-        building and interacting with a platform layer based on the
-        full stack of vTDS layers loaded, the 'config' data structure
-        provided and an absolute path to the 'build_dir' which is a
-        scratch area provided by the caller for any platform layer
-        build activities to take place.
+        """Constructor, stash the root of the platfform tree and the
+        digested and finalized platform configuration provided by the
+        caller that will drive all activities at all layers.
 
         """
-        self.stack = stack
-        platform_config = config.get('platform', None)
-        if platform_config is None:
+        self.__doc__ = PlatformAPI.__doc__
+        self.config = config.get('platform', None)
+        if self.config is None:
             raise ContextualError(
                 "no platform configuration found in top level configuration"
             )
-        self.private = PrivatePlatform(stack, platform_config, build_dir)
+        self.stack = stack
+        self.build_dir = build_dir
+        self.prepared = False
 
     def prepare(self):
-        """Prepare the platform for deployment.
-
-        """
-        self.private.prepare()
+        self.prepared = True
+        print("Preparing vtds-platform-mock")
 
     def validate(self):
-        """Run any configuration validation that may be appropriate
-        for the platform layer.
-
-        """
-        self.private.validate()
+        if not self.prepared:
+            raise ContextualError(
+                "cannot validate an unprepared platform, call prepare() first"
+            )
+        print("Validating vtds-platform-mock")
 
     def deploy(self):
-        """Deploy the platform (must call prepare() prior to this
-        call.
-
-        """
-        self.private.deploy()
+        if not self.prepared:
+            raise ContextualError(
+                "cannot deploy an unprepared platform, call prepare() first"
+            )
+        print("Deploying vtds-platform-mock")
 
     def remove(self):
-        """Remove operation. This will remove all resources
-        provisioned for the platform layer.
-
-        """
-        self.private.remove()
+        if not self.prepared:
+            raise ContextualError(
+                "cannot deploy an unprepared platform, call prepare() first"
+            )
+        print("Removing vtds-platform-mock")
