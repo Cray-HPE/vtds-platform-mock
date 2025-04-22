@@ -51,6 +51,9 @@ class Platform(PlatformAPI):
         self.build_dir = build_dir
         self.prepared = False
 
+    def consolidate(self):
+        return
+
     def prepare(self):
         self.prepared = True
         print("Preparing vtds-platform-mock")
@@ -75,3 +78,14 @@ class Platform(PlatformAPI):
                 "cannot deploy an unprepared platform, call prepare() first"
             )
         print("Removing vtds-platform-mock")
+
+    def get_blade_venv_path(self):
+        python_config = self.config.get('python', {})
+        return python_config.get('blade_venv_path', "/root/blade-venv")
+
+    def get_blade_python_executable(self):
+        # NOTE: do not use path_join() here to construct the path. The
+        # path here is being constructed for a Linux environment,
+        # where path separators are always '/' and which might not
+        # match the system this code is running on.
+        return "%s/bin/python3" % self.get_blade_venv_path()
