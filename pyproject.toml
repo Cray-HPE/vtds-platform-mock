@@ -38,7 +38,9 @@ classifiers = [
 ]
 description = 'Mock Platform Layer Plugin for the Virtual Test Development System (vTDS) suite'
 dependencies = [
+    # yaml - this comment reduces conflicts in dependabot PRs
     'pyyaml~=6.0',
+    # vtds base - this comment reduces conflicts in dependabot PRs
     'vtds_base~=0.0',
 ]
 
@@ -70,8 +72,11 @@ lint = [
     'pylint~=3.3',
 ]
 test = [
+    # pytest - this comment reduces conflicts in dependabot PRs
     'pytest~=8.3.5',
+    # pytest coverage - this comment reduces conflicts in dependabot PRs
     'pytest-cov~=4.1',
+    # coverage - this comment reduces conflicts in dependabot PRs
     'coverage~=7.4',
 ]
 
@@ -88,8 +93,11 @@ exclude = ['vtds_platform_mock.tests*']
 [build-system]
 build-backend = 'setuptools.build_meta'
 requires = [
+    # setup tools - this comment reduces conflicts in dependabot PRs
     'setuptools ~= 80.8',
+    # setup tools scm - this comment reduces conflicts in dependabot PRs
     'setuptools_scm[toml] ~= 9.2.0',
+    # wheel - this comment reduces conflicts in dependabot PRs
     'wheel ~= 0.45.1',
 ]
 
