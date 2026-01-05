@@ -69,7 +69,7 @@ style = [
     'pycodestyle~=2.11',
 ]
 lint = [
-    'pylint~=3.3',
+    'pylint>=3.3,<5.0',
 ]
 test = [
     # pytest - this comment reduces conflicts in dependabot PRs
